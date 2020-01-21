@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	
+	
+	<flow name="getAllUsers" doc:id="6653e6f2-4f1a-4ce7-a03f-d1f5623addf5" >
+		<ee:transform doc:name="Transform Message" doc:id="0858d42f-a3de-4977-a133-1ca1338f79c0">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.craftsoftware.com/users
+---
+{
+	ns0#GetAllUsersRequest: null
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="GetAllUsers" doc:name="Consume" doc:id="61884813-9ac9-4f23-a20a-25b55873b1a9" config-ref="Web_Service_Consumer_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="b1828e3d-5fa2-45ae-bdcf-e30e57ce8df3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://www.craftsoftware.com/users
+---
+payload.body.ns0#GetAllUsersResponse]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="getUserByID" doc:id="7eeeebda-0e6a-4f78-838a-9c9c53454522" >
+		<flow-ref doc:name="SetIdFlow" doc:id="76350a53-4e77-4ae7-b1f6-6deaab0a2dd7" name="SetIdFlow"/>
+		<ee:transform doc:name="Transform Message" doc:id="99db3813-889f-4dfd-a894-02e38c3ea415" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.craftsoftware.com/users
+---
+{
+	ns0#GetUserRequest: {
+		ns0#id:vars.ID
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="40aefd7e-017a-479c-bf5c-bdccc7e623e9" config-ref="Web_Service_Consumer_Config" operation="GetUser">
+		</wsc:consume>
+		<ee:transform doc:name="Transform Message" doc:id="94e02d3a-b509-467c-a9b8-88f94a2c11cd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://www.craftsoftware.com/users
+---
+{
+	id: payload.body.ns0#GetUserResponse.ns0#User.ns0#id default 0,
+	first: payload.body.ns0#GetUserResponse.ns0#User.ns0#fist default "",
+	last: payload.body.ns0#GetUserResponse.ns0#User.ns0#last default "",
+	department: payload.body.ns0#GetUserResponse.ns0#User.ns0#department default ""
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="post:\createUser" doc:id="72cd9dcb-3f9c-4812-be1a-e0897b4448ef" >
+		<ee:transform doc:name="Transform Message" doc:id="87de4ebd-5ea0-447f-9ae7-ad6206367255" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.craftsoftware.com/users
+---
+{
+	ns0#CreateUserRequest: {
+		ns0#CreateUser: {
+			ns0#fist: payload.first,
+			ns0#last: payload.last,
+			ns0#department: payload.department
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="CreateUser" doc:name="Consume" doc:id="34328bd6-8fc3-41a2-acd6-b18605274b4c" config-ref="Web_Service_Consumer_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="f6f8cb5e-e99c-42f9-a4dd-fbb17f63f1b1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+"A new User was successfully created!!!"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="updateUser" doc:id="0aec7a32-f34e-406b-a1dd-27d7cd975e76" >
+		<ee:transform doc:name="Transform Message" doc:id="2e36cd45-bf54-4f5c-89c2-a9b34becb851" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.craftsoftware.com/users
+---
+{
+	ns0#UpdateUserRequest: {
+		ns0#User: {
+			ns0#id: attributes.id,
+			ns0#fist: attributes.first,
+			ns0#last: attributes.last,
+			ns0#department: attributes.department
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="UpdateUser" doc:name="Consume" doc:id="8be78031-e87a-4ddf-a137-ab0b9e74014e" config-ref="Web_Service_Consumer_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="60aa3439-d22c-45ea-98ea-34716ab0902b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"Message": "update Successfully "]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Delete-user" doc:id="8f29587f-3a47-44e1-a3e4-30d7182b6f61" >
+		<flow-ref doc:name="Flow Reference" doc:id="f038b0c1-4abd-4977-baa8-8992433d41b4" name="SetIdFlow"/>
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="8ab5765a-8d72-4f74-8656-4b42b4e4c13c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.craftsoftware.com/users
+---
+{
+	ns0#DeleteUserRequest: {
+	ns0#id:vars.ID	
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="DeleteUser" doc:name="Copy_of_Consume" doc:id="a9813347-2e63-4801-a5bf-36b10e3da5f9" config-ref="Web_Service_Consumer_Config" />
+		<ee:transform doc:name="Transform Message" doc:id="b3501558-932f-4423-bc33-917fad9582f7" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "message":"user deleted"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

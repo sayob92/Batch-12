@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "first": "Adam",
+        "last": "Bob",
+        "department": "IIB"
+        },
+    {
+        "id": 2,
+        "first": "Nathan",
+        "last": "Tadesse",
+        "department": "IT"
+        },
+     {
+        "id": 3,
+        "first": "Noah",
+        "last": "Asmare",
+        "department": "Developer"
+        },
+         {
+        "id": 4,
+        "first": "Solyana",
+        "last": "Solomon",
+        "department": "IT"
+        }
+    ]

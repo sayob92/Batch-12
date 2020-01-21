@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>com.mycompany</groupId>
-	<artifactId>capstone-project-official-2</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    
+    <groupId>7efbeb7c-60a7-4bab-a71d-b49a95f5bb08</groupId>
+	<artifactId>capstoneofficial</artifactId>
+    <version>1.0.0</version>
     <packaging>mule-application</packaging>
 
-	<name>capstone-project-official-2</name>
+	<name>capstone___official</name>
 
+    <description/>
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -25,9 +26,7 @@
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
-				<configuration>
-				</configuration>
-			</plugin>
+            </plugin>
 		<plugin>
                 <groupId>com.mulesoft.munit.tools</groupId>
                 <artifactId>munit-maven-plugin</artifactId>
@@ -68,13 +67,6 @@
             <classifier>mule-plugin</classifier>
         </dependency>
 		<dependency>
-            <groupId>7efbeb7c-60a7-4bab-a71d-b49a95f5bb08</groupId>
-            <artifactId>capstone-project-official</artifactId>
-            <version>1.0.0</version>
-            <classifier>raml</classifier>
-            <type>zip</type>
-        </dependency>
-    	<dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-apikit-module</artifactId>
             <version>1.3.7</version>

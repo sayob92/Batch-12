@@ -1,0 +1,129 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/40efa366-d5cc-45d1-8121-decb3ae05c67/ # 
+title: customerManagementAPI
+version: v1
+    
+traits:
+  responseMessages:
+    responses:
+      404:
+        body:
+          application/json:
+            example: !include example/Not_Found_response.json
+              
+/users:
+  description: "display all list of user information!!!"
+  get:
+    queryParameters:
+      department:
+        displayName: department
+        type: string
+        description: "Use department as a queryParams"
+        required: false
+        enum:
+          - IT
+          - IIB
+          - Developer
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include example/Get_All_Users.json
+  is: [responseMessages] 
+  post:
+    description: "API is used to enroll the new users"
+    body:
+     application/json:
+       example: !include example/Create_User.json
+    responses:
+      201:
+        body:
+          application/json:
+            example: " A new User was successfully created!!!"
+      503:
+        body:
+          application/json:
+            example: "Sorry the server was unavailable"
+  put:
+    queryParameters:
+      id: 
+        type: number
+        required: false
+
+        
+    description: "API is used to update the user information"
+    body:
+      application/json:
+        example: !include example/Update_User.json
+    responses:
+      200:
+        body:
+          application/json:
+            example: {"message": "update successfully!!!"}
+      201:
+        body:
+          application/json:
+            example: " A new User was successfully created!!!"
+      500:
+          description: "The request was not completed due to server error."
+          body:
+            application/json:
+              example: "Internal Server Error"
+       
+              
+  /{id}: 
+    description: "API is used to search for a paticular user" 
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include example/Find_User.json
+    is: [responseMessages]
+          
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include example/Find_User.json
+        500:
+          description: "The request was not completed due to server error."
+          body:
+            application/json:
+              example:  "Internal Server Error"
+                
+          
+        
+                
+                
+                
+                            
+              
+        
+        
+              
+      
+        
+              
+
+            
+         
+        
+             
+
+               
+            
+              
+
+          
+          
+          
+          
+          
+      
+
+          
+
+          
+      

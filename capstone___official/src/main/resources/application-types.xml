@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="update" format="json">
+      <types:shape format="weave" example="examples/Update_user.json"><![CDATA[%dw 2.0
+
+type update = {|
+  id: Number {"typeId": "int"}, 
+  first: String, 
+  last: String, 
+  department: String
+|} {"example": "{\\\"id\\\":1,\\\"first\\\":\\\"Adam\\\",\\\"last\\\":\\\"Bob\\\",\\\"department\\\":\\\"IIB\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="getuserId" format="json">
+      <types:shape format="weave" example="examples/Find_user.json"><![CDATA[%dw 2.0
+
+type getuserId = {|
+  id: Number {"typeId": "int"}, 
+  first: String, 
+  last: String, 
+  department: String
+|} {"example": "{\\\"id\\\":1,\\\"first\\\":\\\"Adam\\\",\\\"last\\\":\\\"Bob\\\",\\\"department\\\":\\\"IIB\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="updateuser" format="json">
+      <types:shape format="weave" example="examples/Update_user-1.json"><![CDATA[%dw 2.0
+
+type updateuser = {|
+  id: Number {"typeId": "int"}, 
+  first: String, 
+  last: String, 
+  department: String
+|} {"example": "{\\\"id\\\":1,\\\"first\\\":\\\"Adam\\\",\\\"last\\\":\\\"Bob\\\",\\\"department\\\":\\\"IIB\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="delete" format="json">
+      <types:shape format="weave" example="examples/Create_user.json"><![CDATA[%dw 2.0
+
+type delete = {|
+  first: String, 
+  last: String, 
+  department: String
+|} {"example": "{\\\"first\\\":\\\"Adam\\\",\\\"last\\\":\\\"Bob\\\",\\\"department\\\":\\\"IIB\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="create" format="json">
+      <types:shape format="weave" example="api/example/Create_User.json"><![CDATA[%dw 2.0
+
+type create = {|
+  first: String, 
+  last: String, 
+  department: String
+|} {"example": "{\\\"first\\\":\\\"Adam\\\",\\\"last\\\":\\\"Bob\\\",\\\"department\\\":\\\"IIB\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#94e02d3a-b509-467c-a9b8-88f94a2c11cd">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="getuserId"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#2e36cd45-bf54-4f5c-89c2-a9b34becb851">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:attributes type="updateuser"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#d6de3a02-2076-4c53-9729-309384198b13">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:attributes type="delete"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#87de4ebd-5ea0-447f-9ae7-ad6206367255">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="create"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
